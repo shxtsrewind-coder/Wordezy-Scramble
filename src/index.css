@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: "Archivo", ui-sans-serif, system-ui;
+}
+
+::selection {
+  background: rgba(47, 158, 110, 0.3);
+}

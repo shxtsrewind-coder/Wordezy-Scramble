@@ -1,0 +1,14 @@
+{
+  // Static-site deploy config for Cloudflare Workers, same setup as Wordezy
+  // and Wordezy Search. No server-side Worker code — this is a built Vite SPA
+  // (dist/) served by Workers' static-assets mode. Backend lives in Supabase.
+  //
+  // Build step (run by Cloudflare before deploy): `npm run build` → dist/
+  // Deploy step: `npx wrangler deploy`
+  "name": "wordezy-scramble",
+  "compatibility_date": "2026-01-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Primary SEO -->
+    <title>Wordezy Scramble — Free Daily Word Unscramble Game</title>
+    <meta
+      name="description"
+      content="Unscramble five words a day, from 4 letters up to 8. One new puzzle every day, shared by every player — race the clock, share your time and climb the leaderboard."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://wordezyscramble.bgameworld.com/" />
+    <meta name="theme-color" content="#0b0a08" />
+    <meta name="author" content="bgameworld.com" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Wordezy Scramble" />
+    <meta property="og:title" content="Wordezy Scramble — Free Daily Word Unscramble Game" />
+    <meta
+      property="og:description"
+      content="Unscramble five words a day, from 4 letters up to 8. One new puzzle every day, shared by every player."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://wordezyscramble.bgameworld.com/" />
+    <meta property="og:image" content="https://wordezyscramble.bgameworld.com/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Wordezy Scramble — SCRAMBLE spelled in jade and gold tiles, two of them mid-shuffle" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wordezy Scramble — Free Daily Word Unscramble Game" />
+    <meta
+      name="twitter:description"
+      content="Unscramble five words a day, from 4 letters up to 8. One new puzzle every day, shared by every player."
+    />
+    <meta name="twitter:image" content="https://wordezyscramble.bgameworld.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Wordezy Scramble — SCRAMBLE spelled in jade and gold tiles" />
+
+    <!-- Icons & home-screen install -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Scramble" />
+    <meta name="application-name" content="Wordezy Scramble" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Wordezy Scramble",
+        "url": "https://wordezyscramble.bgameworld.com/",
+        "image": "https://wordezyscramble.bgameworld.com/og-image.jpg",
+        "description": "Unscramble five words a day, from 4 letters up to 8. One new puzzle every day, shared by every player.",
+        "genre": ["Puzzle", "Word Game"],
+        "gamePlatform": "Web browser",
+        "applicationCategory": "Game",
+        "operatingSystem": "Any (Web Browser)",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "publisher": {
+          "@type": "Organization",
+          "name": "bgameworld.com",
+          "url": "https://bgameworld.com/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://hkcvtoozpeybwehqtiif.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://hkcvtoozpeybwehqtiif.supabase.co" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      Critical boot styles — paint before the JS bundle and Tailwind's CSS
+      arrive, so the first frame is the dark background and a loading mark
+      rather than a flash of white.
+    -->
+    <style>
+      html,
+      body {
+        background-color: #0b0a08;
+      }
+      #initial-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background-color: #0b0a08;
+        background-image: radial-gradient(ellipse 900px 500px at 50% -10%, rgba(47, 158, 110, 0.08), transparent 60%);
+        transition: opacity 0.25s ease;
+      }
+      #initial-loader.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #initial-loader .mark {
+        display: flex;
+        gap: 4px;
+        font-family: 'Cinzel', Georgia, serif;
+        font-weight: 600;
+        font-size: 18px;
+      }
+      #initial-loader .mark span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 5px;
+        color: #0b0a08;
+        animation: sc-hop 1.2s ease-in-out infinite;
+      }
+      #initial-loader .mark span:nth-child(odd) { background: #2f9e6e; }
+      #initial-loader .mark span:nth-child(even) { background: #c9922f; }
+      #initial-loader .mark span:nth-child(2) { animation-delay: 0.1s; }
+      #initial-loader .mark span:nth-child(3) { animation-delay: 0.2s; }
+      #initial-loader .mark span:nth-child(4) { animation-delay: 0.3s; }
+      #initial-loader .mark span:nth-child(5) { animation-delay: 0.4s; }
+      #initial-loader .mark span:nth-child(6) { animation-delay: 0.5s; }
+      #initial-loader .mark span:nth-child(7) { animation-delay: 0.6s; }
+      #initial-loader .mark span:nth-child(8) { animation-delay: 0.7s; }
+      #initial-loader .caption {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: #978c79;
+      }
+      @keyframes sc-hop {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-6px); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #initial-loader .mark span { animation: none; }
+      }
+    </style>
+  </head>
+  <body class="bg-[#0b0a08] text-paper antialiased">
+    <div id="initial-loader" aria-live="polite" aria-label="Loading Wordezy Scramble">
+      <div class="mark"><span>S</span><span>C</span><span>R</span><span>A</span><span>M</span><span>B</span><span>L</span><span>E</span></div>
+      <div class="caption">Jumbling today's words&hellip;</div>
+    </div>
+    <div id="root"></div>
+    <noscript>
+      <h1>Wordezy Scramble — a free daily word unscramble game</h1>
+      <p>
+        Every day there are five scrambled words to solve, from 4 letters up to 8. Tap or type the letters to spell each
+        word, shuffle the tiles when you're stuck, and race the clock. Everyone gets the same puzzle, so you can share your
+        time with friends and climb the daily leaderboard. Wordezy Scramble needs JavaScript to play.
+      </p>
+      <p>More free games: <a href="https://wordezy.bgameworld.com/">Wordezy</a>, <a href="https://wordezysearch.bgameworld.com/">Wordezy Search</a>, <a href="https://whenandwhere.bgameworld.com/">When &amp; Where</a>.</p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
