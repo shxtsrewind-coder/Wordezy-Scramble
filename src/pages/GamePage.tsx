@@ -31,13 +31,13 @@ import {
 } from "../lib/scramble.ts";
 import { localSave, type DailyProgress } from "../lib/localSave.ts";
 import { submitScore, ensureProfile } from "../lib/leaderboard.ts";
-import { supabase, ensureSession } from "../lib/supabase.ts";
+import { supabase, ensureSession, currentUser, withTimeout, BOOT_STEP_MS } from "../lib/supabase.ts";
 import { useElapsed, formatTime, formatCountdown } from "../hooks/useTimer.ts";
 import { ACHIEVEMENTS, diffNewlyUnlocked, type Achievement } from "../data/achievements.ts";
 import { buildShareText, shareResult } from "../lib/share.ts";
 
 type Mode = "daily" | "unlimited";
-type Phase = "auth_checking" | "choice" | "ready" | "auth_blocked";
+type Phase = "auth_checking" | "choice" | "ready";
 
 /** Shown once per browser session — a returning guest isn't re-prompted on
  *  every reload, only on a fresh session. */
@@ -94,7 +94,8 @@ const RoundPips: React.FC<{ current: number; hints: number[]; done: boolean }> =
 
 export const GamePage: React.FC = () => {
   const [phase, setPhase] = useState<Phase>("auth_checking");
-  const [authBlockedReason, setAuthBlockedReason] = useState<"anonymous_disabled" | "unknown">("unknown");
+  // Sign-in couldn't be reached: the game plays, the leaderboard waits.
+  const [offline, setOffline] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState("Player");
   /** Whether this player has a name for this game — the leaderboard RPC
@@ -146,22 +147,26 @@ export const GamePage: React.FC = () => {
     [today]
   );
 
-  const bootAuth = useCallback(async () => {
-    setPhase("auth_checking");
+  /** `quiet` retries in the background (the Retry link, coming back online)
+   *  without swapping the game out for the loading screen. */
+  const bootAuth = useCallback(async (quiet = false) => {
+    if (!quiet) setPhase("auth_checking");
     try {
       const session = await ensureSession();
       if (!session.ok) {
-        setAuthBlockedReason(session.reason || "unknown");
-        setPhase("auth_blocked");
+        // Offline, blocked or down. The puzzle doesn't need the server, so
+        // play locally; scores sync once a later retry gets through.
+        setOffline(true);
+        setPhase("ready");
         return;
       }
-
-      const { data: userData } = await supabase.auth.getUser();
-      const uid = userData.user?.id ?? null;
-      const anon = userData.user?.is_anonymous ?? true;
+      setOffline(false);
+      const user = await currentUser();
+      const uid = user?.id ?? null;
+      const anon = user?.is_anonymous ?? true;
       setUserId(uid);
 
-      const name = await ensureProfile().catch(() => null);
+      const name = await withTimeout(ensureProfile(), BOOT_STEP_MS, null);
       if (name) {
         setDisplayName(name);
         setHasProfile(true);
@@ -176,17 +181,24 @@ export const GamePage: React.FC = () => {
       }
 
       const choiceDone = typeof window !== "undefined" && sessionStorage.getItem(PLAY_CHOICE_KEY) === "true";
-      setPhase(!anon || choiceDone || name ? "ready" : "choice");
+      setPhase(!anon || choiceDone || name || quiet ? "ready" : "choice");
     } catch (err) {
       console.error("Failed to establish session:", err);
-      setAuthBlockedReason("unknown");
-      setPhase("auth_blocked");
+      setOffline(true);
+      setPhase("ready");
     }
   }, []);
 
   useEffect(() => {
     bootAuth();
   }, [bootAuth]);
+
+  useEffect(() => {
+    if (!offline) return;
+    const retry = () => bootAuth(true);
+    window.addEventListener("online", retry);
+    return () => window.removeEventListener("online", retry);
+  }, [offline, bootAuth]);
 
   const handleAuthResolved = useCallback(
     (opts: { isAnonymous: boolean; displayName?: string }) => {
@@ -303,26 +315,6 @@ export const GamePage: React.FC = () => {
     );
   }
 
-  if (phase === "auth_blocked") {
-    return (
-      <div className="min-h-screen bg-ink text-paper flex flex-col items-center justify-center gap-4 px-4 text-center">
-        <WifiOff className="w-8 h-8 text-danger" />
-        <p className="text-sm text-muted max-w-xs">
-          {authBlockedReason === "anonymous_disabled"
-            ? "Guest play is temporarily unavailable for this game. Please try again shortly."
-            : "Couldn't connect right now. Check your connection and try again."}
-        </p>
-        <button
-          type="button"
-          onClick={bootAuth}
-          className="px-4 py-2 rounded-md bg-correct hover:bg-correct-dim text-paper text-sm font-medium transition-colors"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
-
   if (phase === "choice") {
     return <AuthModal currentDisplayName={displayName} onResolved={handleAuthResolved} />;
   }
@@ -402,6 +394,15 @@ export const GamePage: React.FC = () => {
       </div>
 
       <main className="w-full max-w-xl flex flex-col items-center gap-6">
+        {offline && (
+          <div role="status" className="w-full flex items-center gap-2 px-3 py-2 rounded-md border border-rule bg-surface text-xs text-muted">
+            <WifiOff className="w-4 h-4 shrink-0 text-present" aria-hidden="true" />
+            <span className="flex-1">Playing offline. Your game saves on this device; the leaderboard comes back when you reconnect.</span>
+            <button type="button" onClick={() => bootAuth(true)} className="shrink-0 font-medium text-paper underline underline-offset-2">
+              Retry
+            </button>
+          </div>
+        )}
         {mode === "daily" && !progress && (
           <section className="w-full bg-surface border border-rule rounded-xl p-6 text-center space-y-5 animate-rise-in">
             <div className="space-y-1.5">

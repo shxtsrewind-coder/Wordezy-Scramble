@@ -29,7 +29,7 @@ Same setup as Wordezy Search:
 
 1. Push this repo to GitHub.
 2. In Cloudflare, create a Worker from the repo. Build command `npm run build`, deploy command `npx wrangler deploy` (see `wrangler.jsonc`).
-3. Add the `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` build variables.
+3. Optional: the `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` build variables. Without them the game uses the shared bgameworld project (its URL and publishable key are built in), and if Supabase can't be reached at all the game still plays offline.
 4. Add the custom domain `wordezyscramble.bgameworld.com`.
 5. In Google Search Console, add the subdomain and submit `https://wordezyscramble.bgameworld.com/sitemap.xml`.
 
