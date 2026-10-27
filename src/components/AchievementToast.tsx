@@ -29,7 +29,7 @@ export const AchievementToastStack: React.FC<{ achievements: Achievement[]; onDo
   return (
     <div
       role="status"
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-surface border border-correct-dim/50 rounded-xl px-4 py-3 shadow-xl shadow-black/40 animate-achievement-in"
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-surface border border-correct-dim/50 rounded-xl px-4 py-3 shadow-xl shadow-black/15 animate-achievement-in"
     >
       <div className="w-10 h-10 rounded-full bg-correct text-ink flex items-center justify-center shrink-0">
         <Icon className="w-5 h-5" />

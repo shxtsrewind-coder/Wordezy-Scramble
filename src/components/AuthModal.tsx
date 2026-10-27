@@ -110,9 +110,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ currentDisplayName, onReso
   };
 
   return (
-    <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 bg-white/75 backdrop-blur-md flex items-center justify-center p-4">
       <div
-        className="w-full max-w-lg bg-surface border border-rule rounded-2xl p-6 sm:p-8 shadow-xl shadow-black/50 relative space-y-6 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-lg bg-surface border border-rule rounded-2xl p-6 sm:p-8 shadow-xl shadow-black/15 relative space-y-6 max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {confirmationPending ? (
@@ -132,7 +132,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ currentDisplayName, onReso
             <button
               type="button"
               onClick={() => onResolved({ isAnonymous: true, displayName: displayName.trim() || undefined })}
-              className="w-full py-3 px-4 rounded-lg bg-correct hover:bg-correct-dim text-paper font-medium text-sm transition-colors cursor-pointer"
+              className="w-full py-3 px-4 rounded-lg bg-correct hover:bg-correct-dim text-white font-medium text-sm transition-colors cursor-pointer"
             >
               Continue to game
             </button>
@@ -288,7 +288,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ currentDisplayName, onReso
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 px-4 rounded-lg bg-correct hover:bg-correct-dim active:scale-[0.99] text-paper font-medium text-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
+                className="w-full py-3 px-4 rounded-lg bg-correct hover:bg-correct-dim active:scale-[0.99] text-white font-medium text-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
               >
                 {isSubmitting ? (
                   <><RefreshCw className="w-4 h-4 animate-spin" /><span>Creating account…</span></>
@@ -371,7 +371,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ currentDisplayName, onReso
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 px-4 rounded-lg bg-correct hover:bg-correct-dim active:scale-[0.99] text-paper font-medium text-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
+                className="w-full py-3 px-4 rounded-lg bg-correct hover:bg-correct-dim active:scale-[0.99] text-white font-medium text-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
               >
                 {isSubmitting ? (
                   <><RefreshCw className="w-4 h-4 animate-spin" /><span>Signing in…</span></>

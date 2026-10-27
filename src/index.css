@@ -7,9 +7,9 @@ html, body, #root {
 }
 
 body {
-  font-family: "Archivo", ui-sans-serif, system-ui;
+  font-family: "Libre Franklin", ui-sans-serif, system-ui;
 }
 
 ::selection {
-  background: rgba(47, 158, 110, 0.3);
+  background: rgba(245, 197, 74, 0.45);
 }

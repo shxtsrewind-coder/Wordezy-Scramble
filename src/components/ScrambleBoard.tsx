@@ -205,7 +205,7 @@ export const ScrambleBoard: React.FC<Props> = ({ round, locked, active, onSolved
               className={`rounded-[6px] flex items-center justify-center font-display font-semibold transition-all ${
                 isUsed
                   ? "bg-ink border border-rule text-transparent"
-                  : "bg-paper text-ink shadow-[0_3px_0_#978c79] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none"
+                  : "bg-white text-paper border-2 border-paper shadow-[0_3px_0_#121212] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none"
               }`}
               style={{ width: TILE, height: TILE, fontSize: FONT }}
             >

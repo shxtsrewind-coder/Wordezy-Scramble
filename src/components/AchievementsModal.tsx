@@ -12,7 +12,7 @@ export const AchievementsModal: React.FC<{ save: SaveData; onClose: () => void }
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-white/75 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
     >
       <div
