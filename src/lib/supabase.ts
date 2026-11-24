@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { sharedAuthOptions } from "./sharedAuth";
 
 // The shared bgameworld Supabase project (the same one Wordezy uses). A
 // project URL and publishable key are public by design: they ship inside every
@@ -14,11 +15,11 @@ const envKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)?.t
 
 function makeClient() {
   try {
-    return createClient(envUrl || PROJECT_URL, envKey || PUBLISHABLE_KEY);
+    return createClient(envUrl || PROJECT_URL, envKey || PUBLISHABLE_KEY, { auth: sharedAuthOptions() });
   } catch (err) {
     // A malformed build variable shouldn't take the whole game down.
     console.warn("Wordezy Scramble: Supabase build variables are invalid, using the default project.", err);
-    return createClient(PROJECT_URL, PUBLISHABLE_KEY);
+    return createClient(PROJECT_URL, PUBLISHABLE_KEY, { auth: sharedAuthOptions() });
   }
 }
 
