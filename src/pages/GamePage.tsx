@@ -539,17 +539,20 @@ export const GamePage: React.FC = () => {
       </main>
 
       <footer className="w-full max-w-xl mt-auto pt-6 border-t border-rule/60 text-center space-y-2">
-        <p className="text-xs text-muted">More free games on bgameworld</p>
-        <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm">
-          {OTHER_GAMES.map((g) => (
-            <a key={g.url} href={g.url} className="text-paper/80 hover:text-correct transition-colors">
-              {g.name}
+        {/* bgameworld.com/account.js draws a "more games" showcase here; these links are the fallback */}
+        <div data-bgw-more-games data-game="scramble">
+          <p className="text-xs text-muted">More free games on bgameworld</p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm">
+            {OTHER_GAMES.map((g) => (
+              <a key={g.url} href={g.url} className="text-paper/80 hover:text-correct transition-colors">
+                {g.name}
+              </a>
+            ))}
+            <a href="https://bgameworld.com/" className="text-muted hover:text-paper transition-colors">
+              All games
             </a>
-          ))}
-          <a href="https://bgameworld.com/" className="text-muted hover:text-paper transition-colors">
-            All games
-          </a>
-        </nav>
+          </nav>
+        </div>
       </footer>
     </div>
   );
